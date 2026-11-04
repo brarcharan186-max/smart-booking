@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Booked | Smart Booking{% endblock %}
+{% block content %}
+<section class="panel confirm">
+  <p class="confirm-tick" aria-hidden="true">✓</p>
+  <h1>You're booked, {{ appt.customer_name }}</h1>
+  <dl class="summary">
+    <div><dt>Service</dt><dd>{{ appt.service }}</dd></div>
+    <div><dt>Date</dt><dd>{{ appt.date }}</dd></div>
+    <div><dt>Time</dt><dd>{{ appt.time }}</dd></div>
+    <div><dt>Booking number</dt><dd>#{{ appt.id }}</dd></div>
+  </dl>
+  <a class="btn btn-secondary" href="{{ url_for('main.book_form') }}">Book another appointment</a>
+</section>
+{% endblock %}

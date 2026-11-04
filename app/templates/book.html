@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Book an appointment | Smart Booking{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Book an appointment</h1>
+  <p>Pick a service, a day and a time. We'll confirm it straight away.</p>
+</section>
+
+{% if errors %}
+<div class="alert alert-error" role="alert">
+  <p><strong>We couldn't book that.</strong></p>
+  <ul>
+    {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<form class="panel" method="post" action="{{ url_for('main.book') }}" novalidate>
+  <div class="field">
+    <label for="customer_name">Your name</label>
+    <input id="customer_name" name="customer_name" maxlength="80" autocomplete="name"
+           value="{{ values.customer_name or '' }}" required>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="service">Service</label>
+      <select id="service" name="service" required>
+        <option value="">Choose a service</option>
+        {% for s in services %}
+        <option value="{{ s }}" {% if values.service == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="date">Date</label>
+      <input id="date" name="date" type="date" min="{{ today }}" value="{{ values.date or '' }}" required>
+    </div>
+  </div>
+
+  <fieldset class="field">
+    <legend>Time</legend>
+    <div class="slots">
+      {% for t in time_slots %}
+      <label class="slot">
+        <input type="radio" name="time" value="{{ t }}" {% if values.time == t %}checked{% endif %}>
+        <span>{{ t }}</span>
+      </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <button class="btn btn-primary" type="submit">Book appointment</button>
+</form>
+{% endblock %}

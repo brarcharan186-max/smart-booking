@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Smart Booking{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('main.book_form') }}">
+      <span class="brand-mark" aria-hidden="true"></span>Smart Booking
+    </a>
+    <nav>
+      <a href="{{ url_for('main.book_form') }}" {% if request.endpoint in ['main.book_form', 'main.book', 'main.booked'] %}aria-current="page"{% endif %}>Book</a>
+      <a href="{{ url_for('main.dashboard') }}" {% if request.endpoint == 'main.dashboard' %}aria-current="page"{% endif %}>Staff</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">DEVP-600 student prototype. Use test data only.</footer>
+</body>
+</html>

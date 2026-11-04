@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Staff dashboard | Smart Booking{% endblock %}
+{% block content %}
+<section class="intro">
+  <h1>Appointments</h1>
+  <p>{{ active }} active of {{ bookings|length }} total</p>
+</section>
+
+{% with messages = get_flashed_messages() %}
+  {% for m in messages %}
+  <div class="alert alert-info" role="status">{{ m }}</div>
+  {% endfor %}
+{% endwith %}
+
+{% if bookings %}
+<div class="table-wrap panel">
+  <table>
+    <thead>
+      <tr><th>#</th><th>Customer</th><th>Service</th><th>Date</th><th>Time</th><th>Status</th><th><span class="sr-only">Action</span></th></tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr class="{{ 'is-cancelled' if b.status == 'cancelled' }}">
+        <td>{{ b.id }}</td>
+        <td>{{ b.customer_name }}</td>
+        <td>{{ b.service }}</td>
+        <td>{{ b.date }}</td>
+        <td>{{ b.time }}</td>
+        <td><span class="badge badge-{{ b.status }}">{{ b.status|capitalize }}</span></td>
+        <td>
+          {% if b.status == 'active' %}
+          <form method="post" action="{{ url_for('main.cancel', booking_id=b.id) }}"
+                onsubmit="return confirm('Cancel booking #{{ b.id }}?');">
+            <button class="btn btn-danger" type="submit">Cancel</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="panel empty">
+  <p>No appointments yet.</p>
+  <a class="btn btn-primary" href="{{ url_for('main.book_form') }}">Make the first booking</a>
+</div>
+{% endif %}
+{% endblock %}

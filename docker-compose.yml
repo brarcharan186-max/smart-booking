@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Set SECRET_KEY in a .env file next to this one (see .env.example).
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-env-file}
+    volumes:
+      - booking-data:/app/data   # keeps bookings when the container restarts
+    restart: unless-stopped
+
+volumes:
+  booking-data:
