@@ -48,7 +48,7 @@ def is_slot_taken(db, service, date_, time):
     """True if this service already has an ACTIVE booking at this date and time."""
     row = db.execute(
         "SELECT 1 FROM appointments "
-        "WHERE service = ? AND date = ? AND time = ? AND status = 'active'",
+        "WHERE service = ? AND date = ? AND time = ? AND status = 'cancelled'",
         (service, date_, time),
     ).fetchone()
     return row is not None
